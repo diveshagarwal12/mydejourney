@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Data flow1",
+				"name": "ingestcsv",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -24,26 +24,6 @@
 						"computeType": "General"
 					},
 					"traceLevel": "Fine"
-				}
-			},
-			{
-				"name": "Execute Pipeline1",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "Data flow1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "combine_part_file",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
 				}
 			}
 		],
