@@ -1,9 +1,9 @@
 {
-	"name": "dataflow_ingestcsv_db",
+	"name": "dataflow_ingestcsv_copy1",
 	"properties": {
 		"activities": [
 			{
-				"name": "ingestcsv_db",
+				"name": "Data flow1",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "ingestcsv_db",
+						"referenceName": "ingestcsv",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -24,6 +24,26 @@
 						"computeType": "General"
 					},
 					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Data flow1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "combine_part_file",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
 				}
 			}
 		],
