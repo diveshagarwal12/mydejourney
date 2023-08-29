@@ -50,13 +50,18 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
+				"userProperties": [
+					{
+						"name": "singlequote",
+						"value": "@variables('singlequote')"
+					}
+				],
 				"typeProperties": {
 					"storedProcedureName": "[dbo].[load_json_sp]",
 					"storedProcedureParameters": {
 						"myjson": {
 							"value": {
-								"value": "@concat(variables('singlequote'),activity('Get Metadata1').output.childItems,variables('singlequote'))",
+								"value": "@concat(variables('singlequote'),activity('Get Metadata1').output.childItems, variables('singlequote'))",
 								"type": "Expression"
 							},
 							"type": "String"
