@@ -1,0 +1,105 @@
+{
+	"name": "ingestcsv_db",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "inpMovieDS",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "AzureSqlDatabase",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sink1",
+					"rejectedDataLinkedService": {
+						"referenceName": "linkedService1",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "sort1"
+				},
+				{
+					"name": "filternullvotes"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          index as string,",
+				"          title as string,",
+				"          original_language as string,",
+				"          release_date as string,",
+				"          popularity as string,",
+				"          vote_average as double,",
+				"          vote_count as integer,",
+				"          overview as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false,",
+				"     wildcardPaths:['Movies_dataset.csv']) ~> source1",
+				"source1 select(mapColumn(",
+				"          index,",
+				"          title,",
+				"          original_language,",
+				"          release_date,",
+				"          popularity,",
+				"          vote_average,",
+				"          vote_count",
+				"     ),",
+				"     partitionBy('hash', 1),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sort(desc(vote_count, true),",
+				"     partitionBy('hash', 1)) ~> sort1",
+				"sort1 filter(not(isNull(vote_count)),",
+				"     partitionBy('hash', 1)) ~> filternullvotes",
+				"filternullvotes sink(allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     input(",
+				"          indexkey as integer,",
+				"          title as string,",
+				"          original_language as string,",
+				"          release_date as string,",
+				"          popularity as string,",
+				"          vote_avg as double,",
+				"          vote_count as integer",
+				"     ),",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'dbo',",
+				"     tableName: 'movie_data',",
+				"     insertable: true,",
+				"     updateable: false,",
+				"     deletable: false,",
+				"     upsertable: false,",
+				"     postSQLs:['select count(*) from dbo.movie_data;'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          indexkey = index,",
+				"          title,",
+				"          original_language,",
+				"          release_date,",
+				"          popularity,",
+				"          vote_avg = vote_average,",
+				"          vote_count",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
