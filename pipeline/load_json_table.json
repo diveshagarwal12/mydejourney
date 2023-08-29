@@ -56,7 +56,7 @@
 					"storedProcedureParameters": {
 						"myjson": {
 							"value": {
-								"value": "@activity('Get Metadata1').output.childItems",
+								"value": "concat(@variables('singlequote'),@activity('Get Metadata1').output.childItems, @variables('singlequote'))",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -69,6 +69,12 @@
 				}
 			}
 		],
+		"variables": {
+			"singlequote": {
+				"type": "String",
+				"defaultValue": "'"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2023-08-25T20:00:15Z"
 	},
