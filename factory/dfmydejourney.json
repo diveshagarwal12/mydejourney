@@ -1,0 +1,9 @@
+{
+	"name": "dfmydejourney",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "1cc48c4d-d48b-46f1-a89a-33daf1debcb9",
+		"tenantId": "5ce05fb0-7fee-4d04-a24d-af7e90c4984d"
+	}
+}

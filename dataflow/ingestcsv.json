@@ -1,0 +1,90 @@
+{
+	"name": "ingestcsv",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "inpMovieDS",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "outCSV",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"rejectedDataLinkedService": {
+						"referenceName": "linkedService1",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "sort1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          index as string,",
+				"          title as string,",
+				"          original_language as string,",
+				"          release_date as string,",
+				"          popularity as string,",
+				"          vote_average as double,",
+				"          vote_count as integer,",
+				"          overview as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false,",
+				"     wildcardPaths:['Movies_dataset.csv']) ~> source1",
+				"source1 select(mapColumn(",
+				"          index,",
+				"          title,",
+				"          original_language,",
+				"          release_date,",
+				"          popularity,",
+				"          vote_average,",
+				"          vote_count",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sort(desc(vote_count, true)) ~> sort1",
+				"sort1 sink(allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     input(",
+				"          index as string,",
+				"          title as string,",
+				"          original_language as string,",
+				"          release_date as string,",
+				"          popularity as string,",
+				"          vote_average as string,",
+				"          vote_count as string,",
+				"          overview as string",
+				"     ),",
+				"     truncate: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          index,",
+				"          title,",
+				"          original_language,",
+				"          release_date,",
+				"          popularity,",
+				"          vote_average,",
+				"          vote_count",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
