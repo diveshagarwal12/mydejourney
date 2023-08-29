@@ -56,7 +56,7 @@
 					"storedProcedureParameters": {
 						"myjson": {
 							"value": {
-								"value": "concat(@variables('singlequote'),@activity('Get Metadata1').output.childItems, @variables('singlequote'))",
+								"value": "@concat(variables('singlequote'),activity('Get Metadata1').output.childItems,variables('singlequote'))",
 								"type": "Expression"
 							},
 							"type": "String"
