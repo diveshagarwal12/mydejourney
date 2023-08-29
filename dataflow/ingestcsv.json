@@ -31,6 +31,9 @@
 				},
 				{
 					"name": "sort1"
+				},
+				{
+					"name": "filternullvotes"
 				}
 			],
 			"scriptLines": [
@@ -57,10 +60,14 @@
 				"          vote_average,",
 				"          vote_count",
 				"     ),",
+				"     partitionBy('hash', 1),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sort(desc(vote_count, true)) ~> sort1",
-				"sort1 sink(allowSchemaDrift: false,",
+				"select1 sort(desc(vote_count, true),",
+				"     partitionBy('hash', 1)) ~> sort1",
+				"sort1 filter(not(isNull(vote_count)),",
+				"     partitionBy('hash', 1)) ~> filternullvotes",
+				"filternullvotes sink(allowSchemaDrift: false,",
 				"     validateSchema: true,",
 				"     input(",
 				"          index as string,",
@@ -72,6 +79,7 @@
 				"          vote_count as string,",
 				"          overview as string",
 				"     ),",
+				"     partitionFileNames:['sorted_movie_ds.csv'],",
 				"     truncate: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
@@ -83,7 +91,8 @@
 				"          popularity,",
 				"          vote_average,",
 				"          vote_count",
-				"     )) ~> sink1"
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
