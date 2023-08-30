@@ -1,0 +1,80 @@
+{
+	"name": "agg_movie_data",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "inpMovieDS",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "split1"
+				},
+				{
+					"name": "updateDate"
+				},
+				{
+					"name": "ifyDups"
+				},
+				{
+					"name": "topMovieByYear"
+				},
+				{
+					"name": "TopFilmByYear"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          index as string,",
+				"          title as string,",
+				"          original_language as string,",
+				"          release_date as string,",
+				"          popularity as string,",
+				"          vote_average as double,",
+				"          vote_count as integer,",
+				"          overview as string",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false,",
+				"     wildcardPaths:['Movies_dataset.csv']) ~> source1",
+				"source1 select(mapColumn(",
+				"          index,",
+				"          title,",
+				"          original_language,",
+				"          release_date,",
+				"          popularity,",
+				"          vote_average,",
+				"          vote_count",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"ifyDups split(equals(rnk,1),",
+				"     disjoint: false) ~> split1@(nodups, Dups)",
+				"select1 derive(release_date_fixed = iif(instr(release_date,'/')>0, toDate(release_date,'mm/dd/yyyy'),toDate(release_date,'mm-dd-yyyy'))) ~> updateDate",
+				"updateDate window(over(title,",
+				"          release_date_fixed),",
+				"     asc(release_date_fixed, true),",
+				"     rnk = rowNumber()) ~> ifyDups",
+				"split1@nodups window(over(year = year(release_date_fixed)),",
+				"     desc(vote_count, true),",
+				"     rnk = rank()) ~> topMovieByYear",
+				"topMovieByYear pivot(groupBy(rnk = equals(rnk,1)),",
+				"     pivotBy(release_date_fixed),",
+				"     title = max(title),",
+				"     columnNaming: '$N$V',",
+				"     lateral: false) ~> TopFilmByYear"
+			]
+		}
+	}
+}
