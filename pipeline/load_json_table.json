@@ -52,8 +52,8 @@
 				},
 				"userProperties": [
 					{
-						"name": "singlequote",
-						"value": "@variables('singlequote')"
+						"name": "out",
+						"value": "@concat(variables('singlequote'),activity('Get Metadata1').output.childItems, variables('singlequote'))"
 					}
 				],
 				"typeProperties": {
