@@ -49,6 +49,9 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -87,12 +90,14 @@
 				"split1@nodups window(over(year = year(release_date_fixed)),",
 				"     desc(vote_count, true),",
 				"     rnk = rank()) ~> topMovieByYear",
-				"derivedColumn1 pivot(pivotBy(year),",
+				"derivedColumn1 pivot(groupBy(rnk),",
+				"     pivotBy(year),",
 				"     title = max(title),",
 				"     columnNaming: '$N$V',",
 				"     lateral: false) ~> TopFilmByYear",
 				"topMovieByYear derive(year = year(release_date_fixed)) ~> derivedColumn1",
-				"TopFilmByYear sink(allowSchemaDrift: true,",
+				"TopFilmByYear filter(equals(rnk,1)) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['TopMoviesByYear_Pivot'],",
 				"     skipDuplicateMapInputs: true,",
