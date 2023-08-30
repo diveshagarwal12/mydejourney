@@ -25,7 +25,8 @@
 						"referenceName": "MOvieRanksByYear",
 						"type": "DatasetReference"
 					},
-					"name": "sink2"
+					"name": "sink2",
+					"description": "Export data to MovieRanksByYear"
 				}
 			],
 			"transformations": [
