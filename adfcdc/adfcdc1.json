@@ -7,36 +7,7 @@
 					{
 						"name": "dbo.movie_data",
 						"properties": {
-							"schema": [
-								{
-									"name": "indexkey",
-									"dataType": "integer"
-								},
-								{
-									"name": "title",
-									"dataType": "string"
-								},
-								{
-									"name": "original_language",
-									"dataType": "string"
-								},
-								{
-									"name": "release_date",
-									"dataType": "string"
-								},
-								{
-									"name": "popularity",
-									"dataType": "string"
-								},
-								{
-									"name": "vote_avg",
-									"dataType": "double"
-								},
-								{
-									"name": "vote_count",
-									"dataType": "integer"
-								}
-							],
+							"schema": [],
 							"dslConnectorProperties": [
 								{
 									"name": "schemaName",
@@ -53,14 +24,6 @@
 								{
 									"name": "netChanges",
 									"value": true
-								},
-								{
-									"name": "allowSchemaDrift",
-									"value": false
-								},
-								{
-									"name": "inferDriftedColumnTypes",
-									"value": false
 								}
 							]
 						}
@@ -111,38 +74,9 @@
 			{
 				"TargetEntities": [
 					{
-						"name": "dbo.movie_data",
+						"name": "dbo.movie_data_cdc",
 						"properties": {
-							"schema": [
-								{
-									"name": "indexkey",
-									"dataType": "integer"
-								},
-								{
-									"name": "title",
-									"dataType": "string"
-								},
-								{
-									"name": "original_language",
-									"dataType": "string"
-								},
-								{
-									"name": "release_date",
-									"dataType": "string"
-								},
-								{
-									"name": "popularity",
-									"dataType": "string"
-								},
-								{
-									"name": "vote_avg",
-									"dataType": "double"
-								},
-								{
-									"name": "vote_count",
-									"dataType": "integer"
-								}
-							],
+							"schema": [],
 							"dslConnectorProperties": [
 								{
 									"name": "schemaName",
@@ -150,37 +84,7 @@
 								},
 								{
 									"name": "tableName",
-									"value": "movie_data"
-								},
-								{
-									"name": "allowSchemaDrift",
-									"value": false
-								},
-								{
-									"name": "inferDriftedColumnTypes",
-									"value": false
-								},
-								{
-									"name": "keys",
-									"value": [
-										"indexkey"
-									]
-								},
-								{
-									"name": "deletable",
-									"value": true
-								},
-								{
-									"name": "updateable",
-									"value": true
-								},
-								{
-									"name": "upsertable",
-									"value": true
-								},
-								{
-									"name": "defaultToUpsert",
-									"value": true
+									"value": "movie_data_cdc"
 								}
 							]
 						}
@@ -247,106 +151,14 @@
 				},
 				"DataMapperMappings": [
 					{
-						"targetEntityName": "dbo.movie_data",
+						"targetEntityName": "dbo.movie_data_cdc",
 						"sourceEntityName": "dbo.movie_data",
 						"sourceConnectionReference": {
 							"connectionName": "AzureSqlDatabase",
 							"type": "linkedservicetype"
 						},
 						"attributeMappingInfo": {
-							"attributeMappings": [
-								{
-									"name": "indexkey",
-									"type": "Direct",
-									"functionName": "",
-									"attributeReference": {
-										"name": "indexkey",
-										"entity": "dbo.movie_data",
-										"entityConnectionReference": {
-											"connectionName": "AzureSqlDatabase",
-											"type": "linkedservicetype"
-										}
-									}
-								},
-								{
-									"name": "original_language",
-									"type": "Direct",
-									"functionName": "",
-									"attributeReference": {
-										"name": "original_language",
-										"entity": "dbo.movie_data",
-										"entityConnectionReference": {
-											"connectionName": "AzureSqlDatabase",
-											"type": "linkedservicetype"
-										}
-									}
-								},
-								{
-									"name": "popularity",
-									"type": "Direct",
-									"functionName": "",
-									"attributeReference": {
-										"name": "popularity",
-										"entity": "dbo.movie_data",
-										"entityConnectionReference": {
-											"connectionName": "AzureSqlDatabase",
-											"type": "linkedservicetype"
-										}
-									}
-								},
-								{
-									"name": "release_date",
-									"type": "Direct",
-									"functionName": "",
-									"attributeReference": {
-										"name": "release_date",
-										"entity": "dbo.movie_data",
-										"entityConnectionReference": {
-											"connectionName": "AzureSqlDatabase",
-											"type": "linkedservicetype"
-										}
-									}
-								},
-								{
-									"name": "title",
-									"type": "Direct",
-									"functionName": "",
-									"attributeReference": {
-										"name": "title",
-										"entity": "dbo.movie_data",
-										"entityConnectionReference": {
-											"connectionName": "AzureSqlDatabase",
-											"type": "linkedservicetype"
-										}
-									}
-								},
-								{
-									"name": "vote_avg",
-									"type": "Direct",
-									"functionName": "",
-									"attributeReference": {
-										"name": "vote_avg",
-										"entity": "dbo.movie_data",
-										"entityConnectionReference": {
-											"connectionName": "AzureSqlDatabase",
-											"type": "linkedservicetype"
-										}
-									}
-								},
-								{
-									"name": "vote_count",
-									"type": "Direct",
-									"functionName": "",
-									"attributeReference": {
-										"name": "vote_count",
-										"entity": "dbo.movie_data",
-										"entityConnectionReference": {
-											"connectionName": "AzureSqlDatabase",
-											"type": "linkedservicetype"
-										}
-									}
-								}
-							]
+							"attributeMappings": []
 						}
 					}
 				],
@@ -360,6 +172,7 @@
 			},
 			"mode": "Microbatch"
 		},
+		"status": "Stopped",
 		"allowVNetOverride": false
 	}
 }
