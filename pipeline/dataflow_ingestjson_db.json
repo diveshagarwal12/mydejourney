@@ -39,10 +39,6 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "load_json_table",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true
 				}
 			}
