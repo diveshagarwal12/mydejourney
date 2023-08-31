@@ -8,11 +8,20 @@
 		"AzureBlobStorage1_connectionString": {
 			"value": ""
 		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
 		"AzureSqlDatabase_connectionString": {
+			"value": ""
+		},
+		"de_dbls_accessToken": {
 			"value": ""
 		},
 		"linkedService1_connectionString": {
 			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://samydejourney.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"value": ""
