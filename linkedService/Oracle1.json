@@ -5,8 +5,8 @@
 		"annotations": [],
 		"type": "Oracle",
 		"typeProperties": {
-			"connectionString": "host=localhost;port=1521;sid=xe;user id=system",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJhNzdhY2Q1My02YWJlLTRjNDItYmZlYi1mYzQzYjEzMmI5OWMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"connectionString": "host=localhost;port=1521;sid=xe;user id=c##divesh",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0ZDNlMTcwMS00NWIxLTQ3NDAtYTgwMS1iMzk5NDg4NmZlNmMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "myselfhostedIR",
